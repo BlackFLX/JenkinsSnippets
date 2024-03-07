@@ -1,0 +1,62 @@
+pipeline {
+    agent { label 'test' }
+
+    stages {
+        stage('Hello') {
+            steps {
+                echo 'Hello World'
+                bat 'powershell -Command "Set-Content -Path \'test.ps1\' -Value \'while ($true) {Write-Output \\\"Hallo Welt\\\"; Start-Sleep -Seconds 10}\'"'
+            }
+        }
+        stage('Hello 2') {
+            steps {
+                timeout(time: 15, unit: 'SECONDS') {
+                    bat 'powershell -file test.ps1'
+                    echo 'cmd dass nach timeout eigentlich nicht mehr ausgeführt werden sollte!'
+                }
+            }
+        }
+    }
+}
+
+pipeline {
+    agent { label 'test' }
+
+    stages {
+        stage('Hello') {
+            steps {
+                echo 'Hello World'
+                bat 'powershell -Command "Set-Content -Path \'test.ps1\' -Value \'while ($true) {Write-Output \\\"Hallo Welt\\\"; Start-Sleep -Seconds 10}\'"'
+            }
+        }
+        stage('Hello 2') {
+            steps {
+                timeout(time: 15, unit: 'SECONDS') {
+                    bat 'ping -t 127.0.0.1'
+                    echo 'cmd dass nach timeout eigentlich nicht mehr ausgeführt werden sollte!'
+                }
+            }
+        }
+    }
+}
+
+pipeline {
+    agent { label 'test' }
+
+    stages {
+        stage('Hello') {
+            steps {
+                echo 'Hello World'
+                bat 'powershell -Command "Set-Content -Path \'test.ps1\' -Value \'while ($true) {Write-Output \\\"Hallo Welt\\\"; Start-Sleep -Seconds 10}\'"'
+            }
+        }
+        stage('Hello 2') {
+            steps {
+                timeout(time: 15, unit: 'SECONDS') {
+                    powershell './test.ps1'
+                    echo 'cmd dass nach timeout eigentlich nicht mehr ausgeführt werden sollte!'
+                }
+            }
+        }
+    }
+}
